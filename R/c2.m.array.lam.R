@@ -6,7 +6,7 @@
 
 c2.m.array.lam <- function(lambda, S){
 
-  # just for testing the git
+
 
   # Distributing parameters
   par <- param()
