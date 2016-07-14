@@ -1,8 +1,10 @@
 Package: TwoPeriodSim
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("Mohsen", "Mirtaher", email = "first.last@example.com", role = c("aut", "cre"))
+Title: Two period model risk sharing using the collective model
+Version: 1.0.0.0
+Authors@R: person("Mohsen", "Mirtaher", email = "mmirtaher@gmail.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph)
 Depends: R (>= 3.1.0)
-License: What license is it under?
+License: University of Chicago
 LazyData: true
+BugReports: https://github.com/mirtaher/TwoPeriodSim.git/issues
+URL: https://github.com/mirtaher/TwoPeriodSim.git
