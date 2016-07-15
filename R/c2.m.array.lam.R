@@ -4,9 +4,7 @@
 #' @export
 
 
-c2.m.array.lam <- function(lambda, S){
-
-
+c2.m.array.lam <- function(lambda, S, i, r1, r2){
 
   # Distributing parameters
   par <- param()
@@ -29,8 +27,6 @@ c2.m.array.lam <- function(lambda, S){
   u.grad <- par$u.grad
   chi <- par$chi
 
-  c2 <- mapply(function(yh, yw) period.2.lam(lambda, S, yh, yw, Analytical = T), y2[,1,,], y2[,2,,])
-  c2.array <- array(c2, dim = c(2,N,reps1,reps2) )
-  res <- aperm(c2.array, c(2,1,3,4))
+  res <- period.2.lam(lambda, S, y2[i, 1, r1, r2], y2[i, 2, r1, r2], Analytical = T)
   return(res)
 }
