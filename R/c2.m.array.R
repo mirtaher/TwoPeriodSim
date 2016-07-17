@@ -3,9 +3,9 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-  
+
 c2.m.array <- function(S){
-  
+
 # Distributing parameters
 par <- param()
 N <- par$N
@@ -28,7 +28,7 @@ u.grad <- par$u.grad
 
 
   c2 <- mapply(function(S, yh, yw) period.2(S, yh, yw, Analytical = F), S, y2[,1,,], y2[,2,,])
-  c2.array <- array(c2, dim = c(2,N,3,4) )
+  c2.array <- array(c2, dim = c(2,N,reps1,reps2) )
   res <- aperm(c2.array, c(2,1,3,4))
   return(res)
 }
