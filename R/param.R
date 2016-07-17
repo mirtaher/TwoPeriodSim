@@ -8,7 +8,7 @@ param <- function(){
   # size pars
   N <- 5 #number of couples
   reps1 <- 2
-  reps2 <- 100 # simulation repetitions for
+  reps2 <- 5 # simulation repetitions for
   seed <- 123
 
   # income process parameters
