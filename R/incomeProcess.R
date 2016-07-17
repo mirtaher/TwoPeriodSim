@@ -5,10 +5,10 @@
 #' @keywords cats
 #' @export
 
- 
+
 incomeProcess <- function(sigma_eta_h, Rho, Phi){
   suppressWarnings(library(MASS))
- 
+
   # Distributing parameters
   par <- param()
   N <- par$N
@@ -20,9 +20,9 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
   beta <- par$beta
   ybar <- par$ybar
   delta <- par$delta
-  
-  
-  # Transitory shocks parameters 
+
+
+  # Transitory shocks parameters
   sigma_eta_w = sigma_eta_h * Phi^2
   cov_eta = sqrt(sigma_eta_h * sigma_eta_w)  * Rho
   Omega <- (1 + 2 * Rho * Phi + Phi^2)/4
@@ -30,7 +30,7 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
   if (det(sigma_eta) <= 0){
     warning("covariance matrix is not S.P.D")
     res <- NA
-  } 
+  }
   else {
     # shocks
     set.seed(seed); eta1 <- replicate(n = reps1, mvrnorm(n = N, mu = rep(0,2), Sigma = sigma_eta))
@@ -49,15 +49,15 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
       warning ("life time earnings are negative")
     }
     else{
-      res <- list("y1" = y1, "y2" = y2, "Omega" = Omega)
+      res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1, "epsilon2" = epsilon2)
     }
   }
-  
+
   return(res)
-  
+
 }
-  
-  
+
+
 
 
 

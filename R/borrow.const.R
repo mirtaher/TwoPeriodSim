@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-Borrow.const.lam <- function(i, r){
+borrow.const <- function(i, r){
 
 
   # Distributing parameters
@@ -31,9 +31,10 @@ Borrow.const.lam <- function(i, r){
   equal <- (y1[i,1,r] + y1[i,2,r])/2
   y2.h.min <- min(y2[i,1,r,])
   y2.w.min <- min(y2[i,2,r,])
+  y2.min <- min(y2[i,1,r,] + y2[i,2,r,])
   tol.cons <- 0.01
 
-  b.mar <- (-beta) * (y2.h.min  + y2.w.min)  * (1 - tol.cons)
+  b.mar <- (-beta) * y2.min  * (1 - tol.cons)
   b.h <- (-beta)/delta * y2.h.min * (1 - tol.cons)
   b.w <- (-beta)/(1 - delta) * y2.w.min * (1 - tol.cons)
 
