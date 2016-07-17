@@ -25,13 +25,13 @@ param <- function(){
 
   # Quadratic Utility
     b <- 0.5
-    u <- function(c) c - 1/2 * b * c^2
-    u.grad <-  function(c) 1 - b * c
+    #u <- function(c) c - 1/2 * b * c^2
+    #u.grad <-  function(c) 1 - b * c
 
   # CRRA Utility
     chi <- 1.5
-    #u <- function(c) 1/(1 - chi) * (c^(1 - chi))
-    #u.grad <- function(c) c^(- chi)
+    u <- function(c) 1/(1 - chi) * (c^(1 - chi))
+    u.grad <- function(c) c^(- chi)
 
   # Common Utility parameters
   wt.h <- 0.5
