@@ -28,20 +28,16 @@ D.prob <- function(sigma_eta_h, Rho, Phi){
   index <- expand.grid(1:N, 1:reps1)
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
-  y <- incomeProcess(sigma_eta_h, Rho, Phi)
+  cons <- optimal.path(sigma_eta_h, Rho, Phi)
   options(warn = -1)
-  if (is.na(y)){
+  if (is.na(cons)){
     res <- NA
   }
   else{
-    y1 <<- y$y1
-    y2 <<- y$y2
-
-    # obtaining optimal consumption paths
-    c1.d <- array(mapply(function(i, r) period.1.d(i,r), index[,1], index[,2]), dim = c(3, N, reps1))
-    c1.m <- array(mapply(function(i, r) period.1.m(i,r), index[,1], index[,2]), dim = c(3, N, reps1))
-    c2.m <- aperm(array(mapply(function(i, r1, r2) period.2.m(c1.m[3,i,r1], i, r1, r2), index2[,1], index2[,2], index2[,3]), dim = c(2, N, reps1, reps2)), c(2,1,3,4))
-    c2.d <- aperm(array(mapply(function(i, r1, r2) period.2.d(c1.d[3,i,r1], i, r1, r2), index2[,1], index2[,2], index2[,3]), dim = c(2, N, reps1, reps2)), c(2,1,3,4))
+    c1.d <- cons$c1.d
+    c1.m <- cons$c1.m
+    c2.d <- cons$c2.d
+    c2.m <- cons$c2.m
 
     # non-cooperative decision to divorce
     D.h <- ifelse(E.1.u.d.opt(c2.d, type = "u", spouse = "h") > E.1.u.m.opt(c2.m, type = "u", spouse = "h"), 1, 0)
