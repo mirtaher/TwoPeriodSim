@@ -58,12 +58,12 @@ E.1.u.m.der.lam <-function(lambda, S, var = c("S", "lambda"), type = c("u", "U")
       if (type == "u"){
         if (spouse == "h"){
           U.2.m.vec <- mapply(function(h, h.der) u.grad(h) * h.der ,
-                              matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1] ,
+                              matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1] ,
                               c.h.S(lambda, S))
         }
         if (spouse == "w"){
           U.2.m.vec <- mapply(function(w, w.der) u.grad(w) * w.der,
-                              matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                              matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                               c.w.S(lambda, S))
         }
 
@@ -71,16 +71,16 @@ E.1.u.m.der.lam <-function(lambda, S, var = c("S", "lambda"), type = c("u", "U")
 
       if (type == "U"){
         U.2.m.vec <- mapply(function(h, w, h.der, w.der) lambda * u.grad(h) * h.der + (1 - lambda) * u.grad(w) * w.der,
-                            matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                            matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                            matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                            matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                             c.h.S(lambda, S),
                             c.w.S(lambda, S))
 
       }
     } else {
       U.2.m.vec <- mapply(function(h, w, h.der, w.der) lambda * u.grad(h) * h.der + (1 - lambda) * u.grad(w) * w.der,
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                           c.h.S(lambda, S),
                           c.w.S(lambda, S))
     }
@@ -92,12 +92,12 @@ E.1.u.m.der.lam <-function(lambda, S, var = c("S", "lambda"), type = c("u", "U")
       if (type == "u"){
         if (spouse == "h"){
           U.2.m.vec <- mapply(function(h, h.der) u.grad(h) * h.der ,
-                              matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1] ,
+                              matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1] ,
                               c.h.lambda(lambda, S))
         }
         if (spouse == "w"){
           U.2.m.vec <- mapply(function(w, w.der) u.grad(w) * w.der,
-                              matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                              matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                               c.w.lambda(lambda, S))
         }
 
@@ -105,16 +105,16 @@ E.1.u.m.der.lam <-function(lambda, S, var = c("S", "lambda"), type = c("u", "U")
 
       if (type == "U"){
         U.2.m.vec <- mapply(function(h,w, h.der, w.der) u(h) - u(w) + lambda * (u.grad(h) * h.der - u.grad(w) * w.der) + u.grad(w) * w.der,
-                            matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                            matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                            matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                            matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                             c.h.lambda(lambda, S),
                             c.w.lambda(lambda, S))
 
       }
     } else {
       U.2.m.vec <- mapply(function(h,w, h.der, w.der) u(h) - u(w) + lambda * (u.grad(h) * h.der - u.grad(w) * w.der) + u.grad(w) * w.der,
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2],
                           c.h.lambda(lambda, S),
                           c.w.lambda(lambda, S))
     }

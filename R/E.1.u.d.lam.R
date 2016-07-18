@@ -33,25 +33,25 @@ E.1.u.d.lam <-function(S, type = c("u", "U"), spouse = c("h", "w"), i, r){
     if (type == "u"){
       if (spouse == "h"){
         U.2.m.vec <- mapply(function(h) u(h),
-                            matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,1])
+                            matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,1])
       }
       if (spouse == "w"){
         U.2.m.vec <-  mapply(function(w) u(w),
-                             matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,2])
+                             matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,2])
       }
 
     }
 
     if (type == "U"){
       U.2.m.vec <- mapply(function(h,w) U(h, w),
-                          matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,1],
-                          matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,2])
+                          matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,1],
+                          matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,2])
 
     }
   } else {
     U.2.m.vec <- mapply(function(h,w) U(h, w),
-                        matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,1],
-                        matrix(c2.d.array.lam(S, i, r, 1:reps2), ncol = 2)[,2])
+                        matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,1],
+                        matrix(period.2.d(S, i, r, 1:reps2), ncol = 2)[,2])
   }
 
 

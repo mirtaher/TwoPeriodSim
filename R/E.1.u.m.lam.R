@@ -34,24 +34,26 @@ E.1.u.m.lam <-function(lambda, S, type = c("u", "U"), spouse = c("h", "w"), i, r
   if (!missing(spouse)){
     if (type == "u"){
       if (spouse == "h"){
-        U.2.m.vec <- mapply(function(h) u(h),  matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1])
+        U.2.m.vec <- mapply(function(h) u(h),
+                            matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1])
       }
       if (spouse == "w"){
-        U.2.m.vec <-  mapply(function(w) u(w), matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
+        U.2.m.vec <-  mapply(function(w) u(w),
+                             matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
       }
 
     }
 
     if (type == "U"){
       U.2.m.vec <- mapply(function(h,w) U2.lam(lambda, h, w),
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                          matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                          matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
 
     }
   } else {
     U.2.m.vec <- mapply(function(h,w) U2.lam(lambda, h, w),
-                        matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
-                        matrix(c2.m.array.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
+                        matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,1],
+                        matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
   }
 
   res <- mean(U.2.m.vec)
