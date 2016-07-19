@@ -62,9 +62,21 @@ feasible.region <- function(i, r){
         if (con) temp <- c( temp, c(s.seq[is], l) )
       }
     }
-    sl <-matrix(temp, nrow = 2)
-    c <- (y1[i,1,r] + y1[i,2,r] - sl[1, ])/2
-    res <- cbind(c, c, sl[1, ], sl[2, ])
+    if (  is.null(temp) ){
+      res <- list("status" = "Divorce")
+    } else {
+      sl <-matrix(temp, nrow = 2)
+      c <- (y1[i,1,r] + y1[i,2,r] - sl[1, ])/2
+      start.points <- cbind(c, c, sl[1, ], sl[2, ])
+      values <- mapply(function(j) obj.lam( c.h = start.points[j, 1],
+                                            c.w <- start.points[j, 2],
+                                            S <- start.points[j, 3],
+                                            lam <- start.points[j, 4],  i, r ), 1: nrow(start.points))
+
+      sol <- start.points[which.min(values), ]
+      res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms",
+                  "region" = start.points, "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+    }
 
   }
 
