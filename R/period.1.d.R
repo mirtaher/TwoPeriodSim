@@ -30,10 +30,10 @@ period.1.d <- function(i, r){
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
   eval_f_1_d <- function(c, i, r){
-    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.d(c[3], type = "U", i, r),
+    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.d(c[3], type = "U", i = i, r = r),
                 "gradient" = c(-wt.h * u.grad(c[1]),
                                -wt.w * u.grad(c[2]),
-                               (-beta) * E.1.u.d.der(c[3], type = "U", i, r) )))
+                               (-beta) * E.1.u.d.der(c[3], type = "U", i = i, r = r) )))
   }
 
   eval_g_eq_1 <- function(c, i, r){
