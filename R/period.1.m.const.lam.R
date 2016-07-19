@@ -30,7 +30,7 @@ period.1.m.const.lam <- function(i, r){
   index <- expand.grid(1:N, 1:reps1)
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
-  ini <- feasible.lam(i, r)
+  ini <- feasible.region(i, r)
 
   if (ini$status == "Stay Married with New Terms") {
     eval_f_1_m <- function(c, i, r){
