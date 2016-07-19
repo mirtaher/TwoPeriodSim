@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-period.1.m.lam <- function(i, r){
+period.1.m.lam <- function(lam0, i, r){
   library(nloptr)
 
   # Distributing parameters
@@ -31,11 +31,11 @@ period.1.m.lam <- function(i, r){
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
   eval_f_1_m <- function(c, i, r){
-    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.m.lam(c[4], c[3], type = "U")[i,r],
+    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.m.lam(c[4], c[3], type = "U", i = i, r = r),
                 "gradient" = c(-wt.h * u.grad(c[1]),
                                -wt.w * u.grad(c[2]),
-                               (-beta) * E.1.u.m.der.lam(c[4], c[3], var =  "S", type = "U")[i,r],
-                               (-beta) * E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "U")[i,r])))
+                               (-beta) * E.1.u.m.der.lam(c[4], c[3], var =  "S", type = "U", i = i, r = r),
+                               (-beta) * E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "U", i = i, r = r))))
   }
 
   eval_g_eq_1 <- function(c, i, r){
@@ -56,20 +56,33 @@ period.1.m.lam <- function(i, r){
     y1.expand <- array(rep(y1,reps2), dim = c(N,2,reps1, reps2))
     equal.neg.expand <- (y1.expand[i,1,r,] + y1.expand[i,2,r,] + y2[i,1,r,] + y2[i,2,r,])/4
     equal.neg <- mean(equal.neg.expand)
-    c0 <- c(equal.neg, equal.neg, 0, 0.7)
+    c0 <- equal.neg
   }
   else{
-    c0 <- c(equal, equal, 0, 0.7)
+    c0 <- equal
   }
 
-  ini <- borrow.const(i, r)
-  S.lower <- ini$lower
-  S.upper <- ini$upper
 
-  ub <- c(equal*2, equal*2, S.upper, 1)
-  lb <- c(0, 0, S.lower, 0)
+  # upper and lower bounds
+  c.upper <- equal*2
+  c.lower <- 0
 
-  res <- nloptr(x0 = c0, eval_f = eval_f_1_m, lb = lb, ub = ub,
+  BC <- borrow.const(i, r)
+  S.upper <- BC$upper
+  S.lower <- BC$lower
+
+  lam.upper <- 1
+  lam.lower <- 0
+
+  ub <- c(c.upper, c.upper, S.upper, lam.upper)
+  lb <- c(c.lower, c.lower, S.lower, lam.lower)
+
+  # initial values
+  S0 <- 0
+  lam0 <- lam0
+  x0 <- c(c0, c0, S0, lam0)
+
+  res <- nloptr(x0 = x0, eval_f = eval_f_1_m, lb = lb, ub = ub,
                 eval_g_eq = eval_g_eq_1, opts = opts, i = i, r = r)
   return(res$solution)
 }
