@@ -30,8 +30,8 @@ period.1.m <- function(i, r){
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
   eval_f_1_m <- function(c, i, r){
-    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.m(c[3], type = "U", i, r),
-                "gradient" = c(-wt.h * u.grad(c[1]), -wt.w * u.grad(c[2]), (-beta) * E.1.u.m.der(c[3], type = "U", i, r) )))
+    return(list("objective" = - U(c[1], c[2])- beta * E.1.u.m(c[3], type = "U", i = i, r = r),
+                "gradient" = c(-wt.h * u.grad(c[1]), -wt.w * u.grad(c[2]), (-beta) * E.1.u.m.der(c[3], type = "U", i = i, r = r) )))
   }
 
   eval_g_eq_1 <- function(c, i, r){
