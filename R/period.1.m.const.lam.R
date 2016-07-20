@@ -54,16 +54,22 @@ period.1.m.const.lam <- function(i, r){
     }
 
     eval_jac_g_ineq <- function(c, i, r){
-      matrix(c(0, 0, E.1.u.d.der(c[3], type = "u", spouse = "h", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "h", i, r), - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "h", i, r),
-               0, 0, E.1.u.d.der(c[3], type = "u", spouse = "w", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "w", i, r), - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "w", i, r)) ,
+      matrix(c(0,
+               0,
+               E.1.u.d.der(c[3], type = "u", spouse = "h", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "h", i, r),
+               - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "h", i, r),
+               0,
+               0,
+               E.1.u.d.der(c[3], type = "u", spouse = "w", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "w", i, r),
+               - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "w", i, r)) ,
              ncol = 2)
     }
 
-    local_opts <- list( "algorithm" = "NLOPT_LD_MMA",
-                        "xtol_rel"  = 1.0e-7)
-    opts <- list( "algorithm" = "NLOPT_LD_SLSQP",
-                  "xtol_rel"  = 1.0e-7,
-                  "maxeval"   = 10000,
+    local_opts <- list( "algorithm" = "NLOPT_LN_COBYLA",
+                        "xtol_rel"  = 1.0e-3)
+    opts <- list( "algorithm" = "NLOPT_GN_ISRES",
+                  "xtol_rel"  = 1.0e-3,
+                  "maxeval"   = 100000,
                   "local_opts" = local_opts )
 
     # initial values
@@ -89,7 +95,8 @@ period.1.m.const.lam <- function(i, r){
     res <- nloptr(x0 = x0, eval_f = eval_f_1_m, lb = lb, ub = ub,
                   eval_g_eq = eval_g_eq_1, eval_g_ineq = eval_g_ineq,
                   eval_jac_g_ineq = eval_jac_g_ineq, opts = opts, i = i, r = r)
-    return(list("sol" = res$solution, "status" = "Stay Married with New Terms"))
+    return(res)
+    #return(list("sol" = res$solution, "status" = "Stay Married with New Terms"))
   }
 
   if (ini$status == "Stay Married with Old Terms"){
