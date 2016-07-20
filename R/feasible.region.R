@@ -73,7 +73,7 @@ feasible.region <- function(i, r){
                                             S <- start.points[j, 3],
                                             lam <- start.points[j, 4],  i, r ), 1: nrow(start.points))
 
-      sol <- start.points[which.max(values), ]
+      sol <- start.points[which.min(values), ]
       res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms",
                   "region" = start.points, "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
     }
