@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-feasible.region <- function(i, r){
+feasible.region <- function(i, r, Extensive = FALSE){
   library(nloptr)
 
   # Distributing parameters
@@ -33,8 +33,8 @@ feasible.region <- function(i, r){
   S0.upper <- S0$upper
   uncon <- period.1.m(i, r)
   S.uncon <- uncon[3]
-  S.length <- 20
-  lam.length <- 20
+  S.length <- 200
+  lam.length <- 50
 
   cond.h <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "h", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "h", i, r), 1, 0)
   cond.w <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "w", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "w", i, r), 1, 0)
@@ -74,8 +74,13 @@ feasible.region <- function(i, r){
                                             lam <- start.points[j, 4],  i, r ), 1: nrow(start.points))
 
       sol <- start.points[which.min(values), ]
-      res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms",
-                  "region" = start.points, "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+      res <- res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms")
+
+      if (Extensive){
+        res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms",
+                    "region" = start.points, "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+      }
+
     }
 
   }
