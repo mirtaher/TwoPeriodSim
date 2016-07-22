@@ -95,17 +95,18 @@ period.1.m.lam <- function(i, r){
     res <- nloptr(x0 = x0, eval_f = eval_f_1_m, lb = lb, ub = ub,
                   eval_g_eq = eval_g_eq_1, eval_g_ineq = eval_g_ineq,
                   eval_jac_g_ineq = eval_jac_g_ineq, opts = opts, i = i, r = r)
-    return(res)
-    #return(list("sol" = res$solution, "status" = "Stay Married with New Terms"))
+    #return(res)
+    return(list("sol" = res$solution, "status" = "Stay Married with New Terms"))
   }
 
   if (ini$status == "Stay Married with Old Terms"){
-    sol <- c(ini$c.h.uncon, ini$c.w.uncon, ini$s.uncon)
+    sol <- c(ini$c.h.uncon, ini$c.w.uncon, ini$s.uncon, 0.5)
     return(list("sol" = sol, "status" = "Stay Married with Old Terms"))
   }
 
   if (ini$status == "Divorce"){
     sol <- period.1.d(i, r)
+    sol <- c(sol, NA)
     return("sol" = sol, "status" = "Divorce")
 
   }
