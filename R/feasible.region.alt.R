@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-feasible.region.alt <- function(i, r, Extensive = FALSE){
+feasible.region.alt <- function(i, r, Extensive = FALSE, Optimize = FALSE){
   library(nloptr)
 
   # Distributing parameters
@@ -42,6 +42,9 @@ feasible.region.alt <- function(i, r, Extensive = FALSE){
 
   if (!cond) {
     res <- list("status" = "Stay Married with Old Terms", "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+    if (Optimize){
+      res <- c(uncon[1], uncon[2], uncon[3], 0.5)
+    }
 
   }
   if (cond) {
@@ -61,6 +64,13 @@ feasible.region.alt <- function(i, r, Extensive = FALSE){
 
     if (  is.null(start.points) ){
       res <- list("status" = "Divorce")
+      sol <- period.1.d(i, r)
+      res <- list("sol" = sol, "status" = "Divorce")
+
+      if (Optimize){
+        res <- c(sol, NA)
+      }
+
     } else {
       start.points$values <- mapply(function(c.h, c.w, S, lam) obj.lam(c.h, c.w, S, lam, i, r),
                        start.points$consumption.h,
@@ -71,6 +81,10 @@ feasible.region.alt <- function(i, r, Extensive = FALSE){
       sol <- start.points[which.min(start.points$values), ]
       sol <- as.vector(sol)
       res <- res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms")
+
+      if (Optimize){
+        res <- sol
+      }
 
       if (Extensive){
         res <- list("S0" = sol[3], "lam0" = sol[4], "c0" = sol[1], "status" = "Stay Married with New Terms",
