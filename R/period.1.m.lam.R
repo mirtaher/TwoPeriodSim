@@ -31,6 +31,8 @@ period.1.m.lam <- function(i, r){
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
   ini <- feasible.region(i, r)
+  sol.d <- period.1.d(i, r)
+  s.d <- sol.d[3]
 
   if (ini$status == "Stay Married with New Terms") {
     eval_f_1_m <- function(c, i, r){
@@ -49,18 +51,18 @@ period.1.m.lam <- function(i, r){
 
 
     eval_g_ineq <- function(c, i, r){
-      c(E.1.u.d(c[3], type = "u", spouse = "h", i, r) - E.1.u.m.lam(c[4], c[3], type = "u", spouse = "h", i, r),
-        E.1.u.d(c[3], type = "u", spouse = "w", i, r) - E.1.u.m.lam(c[4], c[3], type = "u", spouse = "w", i, r))
+      c(E.1.u.d(s.d, type = "u", spouse = "h", i, r) - E.1.u.m.lam(c[4], c[3], type = "u", spouse = "h", i, r),
+        E.1.u.d(s.d, type = "u", spouse = "w", i, r) - E.1.u.m.lam(c[4], c[3], type = "u", spouse = "w", i, r))
     }
 
     eval_jac_g_ineq <- function(c, i, r){
       matrix(c(0,
                0,
-               E.1.u.d.der(c[3], type = "u", spouse = "h", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "h", i, r),
+               - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "h", i, r),
                - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "h", i, r),
                0,
                0,
-               E.1.u.d.der(c[3], type = "u", spouse = "w", i, r) - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "w", i, r),
+               - E.1.u.m.der.lam(c[4], c[3], var = "S", type = "u", spouse = "w", i, r),
                - E.1.u.m.der.lam(c[4], c[3], var = "lambda", type = "u", spouse = "w", i, r)) ,
              ncol = 2)
     }
