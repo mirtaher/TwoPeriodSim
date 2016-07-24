@@ -31,8 +31,13 @@ feasible.region <- function(i, r, Extensive = FALSE, Optimize = FALSE){
   S0 <- borrow.const(i, r)
   S0.lower <- S0$lower
   S0.upper <- S0$upper
+
   uncon <- period.1.m(i, r)
   S.uncon <- uncon[3]
+
+  sol.d <- period.1.d(i, r)
+  s.d <- sol.d[3]
+
   S.length <- 200
   lam.length <- 50
 
@@ -59,18 +64,17 @@ feasible.region <- function(i, r, Extensive = FALSE, Optimize = FALSE){
     temp <- c()
     for (is in 1:S.length){
       for(l in lam.seq){
-        con.h <- ifelse(E.1.u.d(s.seq[is], type = "u", spouse = "h", i, r) <= E.1.u.m.lam(l, s.seq[is], type = "u", spouse = "h", i, r), 1, 0)
-        con.w <- ifelse(E.1.u.d(s.seq[is], type = "u", spouse = "w", i, r) <= E.1.u.m.lam(l, s.seq[is], type = "u", spouse = "w", i, r), 1, 0)
+        con.h <- ifelse(E.1.u.d(s.d, type = "u", spouse = "h", i, r) <= E.1.u.m.lam(l, s.seq[is], type = "u", spouse = "h", i, r), 1, 0)
+        con.w <- ifelse(E.1.u.d(s.d, type = "u", spouse = "w", i, r) <= E.1.u.m.lam(l, s.seq[is], type = "u", spouse = "w", i, r), 1, 0)
         con <- con.h & con.w
         if (con) temp <- c( temp, c(s.seq[is], l) )
       }
     }
     if (  is.null(temp) ){
-      sol <- period.1.d(i, r)
-      res <- list("sol" = sol, "status" = "Divorce")
+      res <- list("sol" = sol.d, "status" = "Divorce")
 
       if (Optimize){
-        res <- c(sol, NA)
+        res <- c(sol.d, NA)
       }
 
     } else {
