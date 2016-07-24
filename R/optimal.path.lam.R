@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-optimal.path.lam <- function(Precise = FALSE){
+optimal.path.lam <- function(Precise = FALSE, local = TRUE){
 
   # Distributing parameters
   par <- param()
@@ -30,8 +30,15 @@ optimal.path.lam <- function(Precise = FALSE){
 
   # Set up the parallel
   library(parallel)
-  nc <- detectCores() - 1
-  cl <- makeForkCluster(nc)
+
+  if (local){
+    nc <- detectCores() - 1
+    cl <- makeForkCluster(nc)
+  } else {
+    nc <- 12
+    cl <- makeCluster(nc)
+  }
+
 
   # obtaining optimal consumption paths
   if (!Precise){
