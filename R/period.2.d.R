@@ -26,6 +26,14 @@ period.2.d <- function(S, i, r1, r2){
   U <- par$U
   u.grad <- par$u.grad
 
+  sigma_eta_h <- par$sigma_eta_h
+  rho <- par$rho
+  phi <- par$phi
+
+  income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
+  y1 <- income$y1
+  y2 <- income$y2
+
 
   res.h <- 1/beta * delta * S + y2[i, 1, r1, r2]
   res.w <- 1/beta * (1 - delta) * S + y2[i, 2, r1, r2]

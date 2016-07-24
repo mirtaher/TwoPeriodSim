@@ -25,6 +25,14 @@ period.1.d <- function(i, r){
   U <- par$U
   u.grad <- par$u.grad
 
+  sigma_eta_h <- par$sigma_eta_h
+  rho <- par$rho
+  phi <- par$phi
+
+  income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
+  y1 <- income$y1
+  y2 <- income$y2
+
   # Cartesian product
   index <- expand.grid(1:N, 1:reps1)
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)

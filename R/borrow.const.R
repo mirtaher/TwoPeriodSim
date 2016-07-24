@@ -27,6 +27,14 @@ borrow.const <- function(i, r){
   U <- par$U
   u.grad <- par$u.grad
 
+  sigma_eta_h <- par$sigma_eta_h
+  rho <- par$rho
+  phi <- par$phi
+
+  income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
+  y1 <- income$y1
+  y2 <- income$y2
+
 
   equal <- (y1[i,1,r] + y1[i,2,r])/2
   y2.h.min <- min(y2[i,1,r,])
