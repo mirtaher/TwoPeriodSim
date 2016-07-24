@@ -28,6 +28,14 @@ feasible.region.alt <- function(i, r, Extensive = FALSE, Optimize = FALSE){
   u.grad <- par$u.grad
   chi <- par$chi
 
+  sigma_eta_h <- par$sigma_eta_h
+  rho <- par$rho
+  phi <- par$phi
+
+  income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
+  y1 <- income$y1
+  y2 <- income$y2
+
   S0 <- borrow.const(i, r)
   S0.lower <- S0$lower
   S0.upper <- S0$upper
