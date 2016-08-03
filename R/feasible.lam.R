@@ -36,54 +36,62 @@ feasible.lam <- function(i, r){
   y1 <- income$y1
   y2 <- income$y2
 
-  S0 <- borrow.const(i, r)
-  S0.lower <- S0$lower
-  S0.upper <- S0$upper
-  uncon <- period.1.m(i, r)
-  S.uncon <- uncon[3]
-  S.length <- 20
-  lam.length <- 20
+  miss <- is.na(y1[i,1,r]) | is.na(y1[i,2,r])
+  if (miss){
+    res <- rep(NA, 1)
+    return(res)
+  } else {
+    S0 <- borrow.const(i, r)
+    S0.lower <- S0$lower
+    S0.upper <- S0$upper
+    uncon <- period.1.m(i, r)
+    S.uncon <- uncon[3]
+    S.length <- 20
+    lam.length <- 20
 
-  cond.h <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "h", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "h", i, r), 1, 0)
-  cond.w <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "w", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "w", i, r), 1, 0)
-  cond <- (cond.h | cond.w)
+    cond.h <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "h", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "h", i, r), 1, 0)
+    cond.w <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "w", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "w", i, r), 1, 0)
+    cond <- (cond.h | cond.w)
 
-  if (!cond) {
-    res <- list("status" = "Stay Married with Old Terms", "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+    if (!cond) {
+      res <- list("status" = "Stay Married with Old Terms", "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
 
-  }
-  if (cond) {
-    if (cond.h){
-      lam.seq <- seq(from = 0.99, to = 0.51, length.out = lam.length)
     }
-    if(cond.w){
-      lam.seq <- seq(from = 0.01, to = 0.49, length.out = lam.length)
-    }
-    s.seq <- seq(from = S0.lower, to = S0.upper, length.out = S.length )
-    ind <- 0
-    con <- TRUE
-    while(con){
-      ind <- ind + 1
-      if (ind > S.length) break
-      else{
-        S0.lam <- s.seq[ind]
-        for (l in lam.seq){
-          con.h <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "h", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "h", i, r), 1, 0)
-          con.w <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "w", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "w", i, r), 1, 0)
-          con <- con.h | con.w
-          if (!con) break
+    if (cond) {
+      if (cond.h){
+        lam.seq <- seq(from = 0.99, to = 0.51, length.out = lam.length)
+      }
+      if(cond.w){
+        lam.seq <- seq(from = 0.01, to = 0.49, length.out = lam.length)
+      }
+      s.seq <- seq(from = S0.lower, to = S0.upper, length.out = S.length )
+      ind <- 0
+      con <- TRUE
+      while(con){
+        ind <- ind + 1
+        if (ind > S.length) break
+        else{
+          S0.lam <- s.seq[ind]
+          for (l in lam.seq){
+            con.h <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "h", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "h", i, r), 1, 0)
+            con.w <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "w", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "w", i, r), 1, 0)
+            con <- con.h | con.w
+            if (!con) break
+          }
         }
       }
+      if (con) res <- list("status" = "Divorce")
+      if (!con){
+        c0.lam <- (y1[i,1,r] + y1[i,2,r] - S0.lam)/2
+        res <- list("S0" = S0.lam, "lam0" = l, "c0" = c0.lam, "status" = "Stay Married with New Terms",
+                    "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+      }
     }
-    if (con) res <- list("status" = "Divorce")
-    if (!con){
-      c0.lam <- (y1[i,1,r] + y1[i,2,r] - S0.lam)/2
-      res <- list("S0" = S0.lam, "lam0" = l, "c0" = c0.lam, "status" = "Stay Married with New Terms",
-                  "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
-    }
+
+    return(res)
   }
 
-  return(res)
+
 }
 
 
