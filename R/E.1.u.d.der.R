@@ -36,10 +36,6 @@ E.1.u.d.der <-function(S, type = c("u", "U"), spouse = c("h", "w"), i, r){
   index <- expand.grid(1:N, 1:reps1)
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
-  c2.d.array <- function(S){
-    res <- 1/beta * delta * S + y2
-    return(res)
-  }
 
   if (!missing(spouse)){
     if (type == "u"){
