@@ -35,7 +35,7 @@ optimal.path.lam <- function(Precise = FALSE, local = TRUE){
     cl <- makeForkCluster(nc)
   } else {
     library(snow)
-    nc <- 10
+    nc <- 150
     cl <- makeCluster(nc, type = "MPI")
   }
 
