@@ -47,16 +47,20 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
     ind <- which(y.life.min < 0, arr.ind = TRUE)
     y1[ind] <- NA
     cases <- length(ind[,1])
-    for (ii in 1:cases){
-      y2[ind[ii,1], ind[ii,2], ind[ii,3], ] <- NA
+    if (cases > 0){
+      for (ii in 1:cases){
+        y2[ind[ii,1], ind[ii,2], ind[ii,3], ] <- NA
+      }
     }
+
     y1.tot <- y1[, 1,] + y1[, 2, ]
     ind.1.neg <- which(y1.tot < 0, arr.ind = TRUE)
 
     #y1.expand <- array(rep(y1,reps2), dim = c(N,2,reps1, reps2))
     #y.life <- y1.expand + beta * y2
 
-    res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1, "epsilon2" = epsilon2, "ind.1.neg" = ind.1.neg)
+    res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1,
+                "epsilon2" = epsilon2, "ind" = ind, "ind.1.neg" = ind.1.neg)
   }
 
   return(res)
