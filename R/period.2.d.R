@@ -4,7 +4,7 @@
 #' @export
 
 
-period.2.d <- function(S, i, r1, r2){
+period.2.d <- function(S, i, r1, r2, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){
 
   # Distributing parameters
   par <- param()
@@ -26,21 +26,22 @@ period.2.d <- function(S, i, r1, r2){
   U <- par$U
   u.grad <- par$u.grad
 
-  sigma_eta_h <- par$sigma_eta_h
-  rho <- par$rho
-  phi <- par$phi
-
   income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
-  y1 <- income$y1
-  y2 <- income$y2
+  if (!income$cov.det) {
+    res <- rep(NA, 2)
+    return(res)
+  } else {
+    y1 <- income$y1
+    y2 <- income$y2
 
-  miss <- is.na(y2[i, 1, r1, r2]) | is.na(y2[i, 2, r1, r2])
-  if (miss){
-    res.h <- NA
-    res.w <- NA
-  } else{
-    res.h <- 1/beta * delta * S + y2[i, 1, r1, r2]
-    res.w <- 1/beta * (1 - delta) * S + y2[i, 2, r1, r2]
+    miss <- is.na(y2[i, 1, r1, r2]) | is.na(y2[i, 2, r1, r2])
+    if (miss){
+      res.h <- NA
+      res.w <- NA
+    } else{
+      res.h <- 1/beta * delta * S + y2[i, 1, r1, r2]
+      res.w <- 1/beta * (1 - delta) * S + y2[i, 2, r1, r2]
+    }
+    return(c(res.h, res.w))
   }
-  return(c(res.h, res.w))
 }
