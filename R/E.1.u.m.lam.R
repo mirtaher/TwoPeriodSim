@@ -56,6 +56,6 @@ E.1.u.m.lam <-function(lambda, S, type = c("u", "U"), spouse = c("h", "w"), i, r
                         matrix(period.2.m.lam(lambda, S, i, r, 1:reps2), ncol = 2)[,2])
   }
 
-  res <- mean(U.2.m.vec)
+  res <- mean(U.2.m.vec, na.rm = TRUE)
   return(res)
 }
