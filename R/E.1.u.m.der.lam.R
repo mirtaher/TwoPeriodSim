@@ -130,6 +130,6 @@ E.1.u.m.der.lam <-function(lambda, S, var = c("S", "lambda"), type = c("u", "U")
 
 
   # Taking expectation wrt information available at the first period
-  res <- mean(U.2.m.vec)
+  res <- mean(U.2.m.vec, na.rm = TRUE)
   return(res)
 }
