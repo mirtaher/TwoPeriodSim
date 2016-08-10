@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-borrow.const <- function(i, r){
+borrow.const <- function(i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){
 
 
   # Distributing parameters
@@ -26,10 +26,6 @@ borrow.const <- function(i, r){
   u <- par$u
   U <- par$U
   u.grad <- par$u.grad
-
-  sigma_eta_h <- par$sigma_eta_h
-  rho <- par$rho
-  phi <- par$phi
 
   income <- TwoPeriodSim::incomeProcess(sigma_eta_h = sigma_eta_h, Rho = rho, Phi = phi)
   y1 <- income$y1
