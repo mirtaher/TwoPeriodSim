@@ -17,6 +17,11 @@ param <- function(){
   beta <-  1/(1 + 0.04)
   ybar <-  1 # the same for husband and wife
 
+  # income shocks parameter
+  sigma_eta_h <- 0.01
+  rho <- 0.35
+  phi <- 1.92
+
   # Divorce parameters
   delta <- 0.5 # divorce dividing rule upon divorce
   tau.d <- 0.02 # the foregone utility of singlehood by divorce
@@ -40,7 +45,8 @@ param <- function(){
 
   res <- list("N" = N , "reps1" = reps1 , "reps2" = reps2, "seed" = seed, "theta" = theta,
           "mu" = mu, "beta" = beta, "ybar" = ybar , "delta" = delta, "tau.d" = tau.d,
-          "wt.h" = wt.h, "wt.w" = wt.w, "u" = u, "U" = U, "u.grad" = u.grad, "chi" = chi )
+          "wt.h" = wt.h, "wt.w" = wt.w, "u" = u, "U" = U, "u.grad" = u.grad, "chi" = chi,
+          "sigma_eta_h" = sigma_eta_h, "phi" = phi, "rho" = rho)
 
 
 }

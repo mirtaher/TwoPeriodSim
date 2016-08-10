@@ -27,11 +27,14 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
   cov_eta = sqrt(sigma_eta_h * sigma_eta_w)  * Rho
   Omega <- (1 + 2 * Rho * Phi + Phi^2)/4
   sigma_eta = matrix(c(sigma_eta_h, cov_eta, cov_eta, sigma_eta_w),2,2)
+
   if (det(sigma_eta) <= 0){
     warning("covariance matrix is not S.P.D")
-    res <- NA
+    cov.det <- FALSE
+  } else {
+    cov.det <- TRUE
   }
-  else {
+  if (cov.det){
     # shocks
     set.seed(seed); eta1 <- replicate(n = reps1, mvrnorm(n = N, mu = rep(0,2), Sigma = sigma_eta))
     eta1.expand <- array(rep(eta1, reps2), dim = c(N,2,reps1, reps2))
@@ -42,15 +45,25 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
     y1 <- ybar1 + epsilon1
     ybar2 <- array(rep(1/beta * (1-theta) * ybar, 2 * N * reps1 *reps2), dim = c(N,2,reps1,reps2))
     y2 <- ybar2 + epsilon2
-    y1.expand <- array(rep(y1,reps2), dim = c(N,2,reps1, reps2))
-    y.life <- y1.expand + beta * y2
-    if (any(y.life <0)){
-      res <- NA
-      warning ("life time earnings are negative")
+    y2.min <- apply(y2, MARGIN = c(1,2,3), FUN = min)
+    y.life.min <- y1 + beta * y2.min
+    ind <- which(y.life.min < 0, arr.ind = TRUE)
+    y1[ind] <- NA
+    cases <- length(ind[,1])
+    if (cases > 0){
+      for (ii in 1:cases){
+        y2[ind[ii,1], ind[ii,2], ind[ii,3], ] <- NA
+      }
     }
-    else{
-      res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1, "epsilon2" = epsilon2)
-    }
+
+    y1.tot <- y1[, 1,] + y1[, 2, ]
+    ind.1.neg <- which(y1.tot < 0, arr.ind = TRUE)
+
+    #y1.expand <- array(rep(y1,reps2), dim = c(N,2,reps1, reps2))
+    #y.life <- y1.expand + beta * y2
+
+    res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1,
+                "epsilon2" = epsilon2, "ind" = ind, "ind.1.neg" = ind.1.neg, "cov.det" = cov.det)
   }
 
   return(res)

@@ -28,15 +28,15 @@ optimal.path.lam <- function(Precise = FALSE, local = TRUE){
   index <- expand.grid(1:N, 1:reps1)
   index2 <- expand.grid(1:N, 1:reps1, 1:reps2)
 
-  # Set up the parallel
-  library(parallel)
 
   if (local){
+    library(parallel)
     nc <- detectCores() - 1
     cl <- makeForkCluster(nc)
   } else {
-    nc <- 12
-    cl <- makeCluster(nc)
+    library(snow)
+    nc <- 150
+    cl <- makeCluster(nc, type = "MPI")
   }
 
 
@@ -62,7 +62,13 @@ optimal.path.lam <- function(Precise = FALSE, local = TRUE){
 
   res <- list("c1.d" = c1.d, "c1.m" = c1.m, "c2.m" = c2.m, "c2.d" = c2.d)
   return(res)
+
+  stopCluster(cl)
+  if (!local){
+    mpi.quit()
   }
+
+}
 
 
 
