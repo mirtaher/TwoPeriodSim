@@ -3,7 +3,7 @@
 #' This function simulate the income process for two spaouses
 #' @export
 
-feasible.lam <- function(i, r){
+feasible.lam <- function(i, r, Extensive = FALSE){
   library(nloptr)
 
   # Distributing parameters
@@ -36,18 +36,23 @@ feasible.lam <- function(i, r){
   y1 <- income$y1
   y2 <- income$y2
 
+  S0 <- borrow.const(i, r)
+  S0.lower <- S0$lower
+  S0.upper <- S0$upper
+
   miss <- is.na(y1[i,1,r]) | is.na(y1[i,2,r])
   if (miss){
     res <- rep(NA, 1)
     return(res)
   } else {
-    S0 <- borrow.const(i, r)
-    S0.lower <- S0$lower
-    S0.upper <- S0$upper
     uncon <- period.1.m(i, r)
     S.uncon <- uncon[3]
-    S.length <- 20
-    lam.length <- 20
+
+    sol.d <- period.1.d(i, r)
+    s.d <- sol.d[3]
+
+    S.length <- 200
+    lam.length <- 50
 
     cond.h <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "h", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "h", i, r), 1, 0)
     cond.w <- ifelse(E.1.u.d(S.uncon, type = "u", spouse = "w", i, r) > E.1.u.m(S.uncon, type = "u", spouse = "w", i, r), 1, 0)
@@ -73,18 +78,23 @@ feasible.lam <- function(i, r){
         else{
           S0.lam <- s.seq[ind]
           for (l in lam.seq){
-            con.h <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "h", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "h", i, r), 1, 0)
-            con.w <- ifelse(E.1.u.d(S0.lam, type = "u", spouse = "w", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "w", i, r), 1, 0)
+            con.h <- ifelse(E.1.u.d(s.d, type = "u", spouse = "h", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "h", i, r), 1, 0)
+            con.w <- ifelse(E.1.u.d(s.d, type = "u", spouse = "w", i, r) > E.1.u.m.lam(l, S0.lam, type = "u", spouse = "w", i, r), 1, 0)
             con <- con.h | con.w
             if (!con) break
           }
         }
       }
-      if (con) res <- list("status" = "Divorce")
+      if (con) res <- list("sol" = sol.d, "status" = "Divorce")
       if (!con){
         c0.lam <- (y1[i,1,r] + y1[i,2,r] - S0.lam)/2
-        res <- list("S0" = S0.lam, "lam0" = l, "c0" = c0.lam, "status" = "Stay Married with New Terms",
-                    "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+        res <- list("S0" = S0.lam, "lam0" = l, "c0" = c0.lam, "status" = "Stay Married with New Terms")
+
+
+        if (Extensive){
+          res <- list("S0" = S0.lam, "lam0" = l, "c0" = c0.lam, "status" = "Stay Married with New Terms",
+                      "c.h.uncon" = uncon[1], "c.w.uncon" = uncon[2], "s.uncon" = uncon[3])
+        }
       }
     }
 
