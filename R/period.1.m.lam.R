@@ -1,6 +1,11 @@
-#' Initial parameters distribution
+#' The First Period Problem in the Collective Framework
 #'
-#' This function simulate the income process for two spaouses
+#' This function find the optimal spouses' consumption levels, saving, and sharing rule  in the following period.
+#' The decision to divorce shows itself in the expected next period utility in the objective function; we use E.1.u.m.lam. This is very slow. The choice of algorithm is key.
+#' This is the only algorithm that works with non-linear inequality constraints and equality constraint. We use the feasible.region rough approximation as the initial guesss.
+#'
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
 #' @export
 
 period.1.m.lam <- function(i, r){

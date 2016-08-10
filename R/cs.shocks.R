@@ -1,6 +1,11 @@
-#' Initial parameters distribution
+#' Comparative Statics WRT Rho and Phi
 #'
-#' This function simulate the income process for two spaouses
+#' This function computes comparative statics wrt to rho (correlation coefficient of spouses' shocks)
+#' and phi(the ratio of wife's standard deviation shock to her husband's).
+#' @param parameter Pick either rho or phi to do comparative statics
+#' @param  num the Length of grid for rho or phi. For cluster use recommended to be a multiplier of 150
+#' @param  par.max The maximum of parameter value in the grid. The minimums are calculated automatically; for rho, it is negative of the rho max, for phi, it is the inverse of the max value. For sigma, the length of grid for values greater than one is equal to that of the ones less than one.
+#' @param local Specifies the parallelization should happen on local machine or Acropolis cluster. Default is the local machine
 #' @export
 
 cs.shocks <- function(parameter = c("rho", "phi"), num, par.max, local = TRUE){

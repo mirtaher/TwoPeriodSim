@@ -1,6 +1,13 @@
-#' Initial parameters distribution
+#' Joint Objective Function Given Period One Info
 #'
-#' This function simulate the income process for two spaouses
+#' This function returns the (negative) value of joint objective function for a set of given first period varaibles as of period one information set.
+#' @param c.h First period husband consumption
+#' @param c.w First period wife consumption
+#' @param S Saving
+#' @param lam Sharing rule for the second period
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+
 #' @export
 
 obj.lam <- function(c.h, c.w, S, lam, i, r){

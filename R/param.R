@@ -1,6 +1,6 @@
-#' Initial parameters distribution
+#' Parameters Distribution
 #'
-#' This function simulate the income process for two spaouses
+#' This function distributes the parameters values
 #' @export
 
 param <- function(){
@@ -17,7 +17,7 @@ param <- function(){
   beta <-  1/(1 + 0.04)
   ybar <-  1 # the same for husband and wife
 
-  # income shocks parameter
+  # income shocks parameter baseline
   sigma_eta_h <- 0.01
   rho <- 0.35
   phi <- 1.92

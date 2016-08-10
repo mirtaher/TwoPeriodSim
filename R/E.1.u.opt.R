@@ -1,6 +1,10 @@
-#' Initial parameters distribution
+#' Expected Value Function
 #'
-#' This function simulate the income process for two spaouses
+#' This function calculates the expected second period value function given the information revealed in the first period.
+#'  Essentially, it evaluates the objective function in the optimal second period consumption values and takes the expectation.
+#' @param c2.opt The optimal consumption in the second
+#' @param type Could be individual utility (u) or the joint utility of the couple (U) in a unitary framework
+#' @param spouse If the type is individual utility (u), we should specify we mean husband or wife utility
 #' @export
 
 E.1.u.opt <- function(c2.opt, type = c("u", "U"), spouse = c("h", "w")){

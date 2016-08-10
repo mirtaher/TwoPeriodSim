@@ -1,6 +1,11 @@
-#' Initial parameters distribution
+#' Optimal Path in the Collective Framework
 #'
-#' This function simulate the income process for two spaouses
+#' This function returns the optimal path of consumption, saving, and sharing rule in each period and each marital states. It utilizes parallel computation. In the first period
+#' we have four controls: husband's consumption, wife's consumption, saving, and the sharing rule next period provided staying married. The second period
+#' has two controls: husband's and wife's consumptions. The last line of the code is to exit MPI when using SMOW package on cluster
+#'
+#' @param Precise Use the optimization packages (nloptr) to derive first period optima. If it is off, which is the default, we use feasible.region to have a rough approximation of the optima.
+#' @param local Specifies the parallelization should happen on local machine or Acropolis cluster. Default is the local machine
 #' @export
 
 optimal.path.lam <- function(Precise = FALSE, local = TRUE){

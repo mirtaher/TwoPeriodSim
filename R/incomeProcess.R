@@ -1,10 +1,16 @@
-#' Simulating the income process
+#' Simulate the Income Process
 #'
-#' This function simulate the income process for two spaouses
-#' @param Phi Rho
-#' @keywords cats
+#' This function simulates the income process for two spaouses for a given set of parameters of income shocks process. First, it checks the
+#' covariance matrix determinant for the provided shock parameters. If the cov.det is negative, it exits and assigns FALSE to cov.det outcome.
+#' Otherwise, it simulates the shocks. It is possible that the lifetime earnings of some individuals turn out to be negative, which is problematic computationally
+#' and theoretecally. I have dropped those observations (in fact dropping the families for whom at least one spouse has negative lifetime earnings)
+#' . However, this in fact messes the randomization. I assigend NA for both couples in both periods if the lifetime earninga of one of the
+#' spouses is negative. In addition, we have identified those fammilies for who the total first period income is negative despite the fact that their lifetime earning is not.
+#'
+#' @param sigma_eta_h The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()
+#' @param Rho The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()
+#' @param Phi The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()
 #' @export
-
 
 incomeProcess <- function(sigma_eta_h, Rho, Phi){
   suppressWarnings(library(MASS))
@@ -58,9 +64,6 @@ incomeProcess <- function(sigma_eta_h, Rho, Phi){
 
     y1.tot <- y1[, 1,] + y1[, 2, ]
     ind.1.neg <- which(y1.tot < 0, arr.ind = TRUE)
-
-    #y1.expand <- array(rep(y1,reps2), dim = c(N,2,reps1, reps2))
-    #y.life <- y1.expand + beta * y2
 
     res <- list("y1" = y1, "y2" = y2, "Omega" = Omega, "epsilon1" = epsilon1,
                 "epsilon2" = epsilon2, "ind" = ind, "ind.1.neg" = ind.1.neg, "cov.det" = cov.det)

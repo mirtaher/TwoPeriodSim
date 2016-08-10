@@ -1,7 +1,17 @@
-#' Initial parameters distribution
+#' Borrowing Constraints
 #'
-#' This function simulate the income process for two spaouses
+#' This function finds the max and min amount of savings given a specific income shocks
+#' parameters and individual family (i) and specific repetition (r). If income sgocks pars are not specified
+#' by defualt the values in the param function would be adopted.
+#'  First, it checks whether the incomes are NAs, whuch in this case just returns two NAs.
+#'  Otherwise, the minimum savings (max borrowing) in the first period is the minimum realized
+#'  second period income in simulation in the state of marriage and divorce for each of spouses.
+#'  The minimum of these three anounts, i.e. min second period income in the state of divorce for husband, wife, and
+#'  family if tehy decide to stay married, would constitute as the min savings. In addition, an starvation consumption in the second
+#'  period (which specifies by tol variable) sets aside.
+#'  The maximum saving is the whole total first period income after setting aside the starvation consumption in the first period.
 #' @export
+
 
 borrow.const <- function(i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){
 

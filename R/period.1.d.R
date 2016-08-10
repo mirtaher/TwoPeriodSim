@@ -1,7 +1,14 @@
-#' Initial parameters distribution
+#' The First Period Problem Given Decision to Divorce in the Second Period
 #'
-#' This function simulate the income process for two spaouses
+#' This function find the optimal spouses' consumption levels and saving given the fact that they know that they are going to be divorced in the following period.
+#' The decision to divorce shows itself in the expected next period utility in the objective function; we use E.1.u.d as opposed to E.1.u.m
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param sigma_eta_h The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()
+#' @param rho The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()
+#' @param phi The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()
 #' @export
+
 
 period.1.d <- function(i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){
   library(nloptr)

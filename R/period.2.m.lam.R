@@ -1,6 +1,15 @@
-#' Initial parameters distribution
+#' The Second Period Problem in the Collective Framework
 #'
-#' This function simulate the income process for two spaouses
+#' This function finds the optimal spouses' consumption levels in the second period for agiven level of saving and sharing rule.
+#' We can use the optimization procedure or just use the analytical solution. The default is to use the analytical solution
+#'  and it is necessary to be worked in some other parts of the code.
+#'
+#' @param lambda Sharing Rule
+#' @param S Saving
+#' @param i The marriage index
+#' @param r1 First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param r2 Second period repetition. It is needed for taking expectaions, which is required in the second period
+#' @param Analytical If it is on it uses the analytical solution instead of using the optimization procedure.
 #' @export
 
 period.2.m.lam <- function(lambda, S, i, r1, r2, Analytical = TRUE){

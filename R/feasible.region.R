@@ -1,7 +1,28 @@
-#' Initial parameters distribution
+#' The Feasible Region Where Participation Constraints Satisfy
 #'
-#' This function simulate the income process for two spaouses
+#' This function identifies the pairs of saving and sharing rule where satisfy the participation constraints of both couples. Therefore,
+#' under any pair of these, marriage can be a superior option over divorce. Given that we are assuming the sharing rule to be a half in the first period,
+#' the optimal consumption in the first period is going to be equal. Therefore, given the value of saving, we can obtain the first period consumption levels.
+#' These levels provide a feasible initial guess for the optimization routine. Then, thuru a simple two-dimensional grid search among all
+#' feasible pairs we find the one leading to the smallest value of the objective function. Since, the length of serach area for saving is roughly 2 (between 1 and -1)
+#' and 0.5 for the lambda (because we know either husband or wife should be compensated), with 200 and 50 for saving and sharing rule, respectively
+#' we can pin down the optimal level of saving and lambda with two decimal point accuracy.
+#' Given that the formal optimization procedure has to be global and therefore is so slow, this simple grid search is practically more desirable.
+#' In the following I describe how the procedure works. First we obtain the max and min of saving to pin down the two ends of the saving grid. Then,
+#' find the optimal savings under divorcea and marriage under the same sharing rule (unconstrained solution). If even with the same sharing rule the participation
+#' contsraints of none of the spouses is binding, then the couple stays married with the old terms. Otherwise, we conduct a two-dimensional
+#' search over saving and lambda that keeps both spouses better off in the marriage relative to divorce. We find the best of
+#' these pairs as the rough approximation of the optimal saving and lambda. On the other hand, if the feasible set is empty the couple divorce
+#' because there is no saving and sharing rule that dominates the expected utility of divorce for both spouses.
+#' Notice if the income is missing the function return a vector of four NAs.
+#'
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param Extensive Returns extra ouput including the whole feasible region, and unconstrained (with no change of sharing rule) optimum
+#' consumption and saving.
+#' @param Optimize Returns only four elements vector of solution and no other output
 #' @export
+
 
 feasible.region <- function(i, r, Extensive = FALSE, Optimize = FALSE){
   library(nloptr)

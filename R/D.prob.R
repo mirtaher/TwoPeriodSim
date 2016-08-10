@@ -1,6 +1,13 @@
-#' Initial parameters distribution
+#' Probability of Divorce and Final Consumption Path for a Given Income Shocks Pars
 #'
-#' This function simulate the income process for two spaouses
+#' This function calculates the probability of divorce for a given income shock process parameters. In addition, it
+#' returns the optimal consumption paths after taking into account the decision to divorce. The decision to divorec could be cooperatively ("c")
+#' Non-cooperatively ("n"). In non-cooperative way, each couple compares the expected second period utility between divorec and marriage.
+#' The marriage dessolves once one of the couples betetr off to get divorced. In the cooperative way, in a unitary framework, the couple substitute
+#' the consumption levels in the state of divore and marraige in the joint utility function with the same sharing rule (i.e. 0.5). They
+#' decide to diviorce t=if the collective benefit of divorce outweight the collective utility of staying married. The function also returns
+#' the probability that the participations constraints of husband and wife is binding.
+#' @param Consumption Returns the optimal consumption path and saving after taking into account the optimal decision divorce. By default it is TRUE
 #' @export
 
 # It returns Regime

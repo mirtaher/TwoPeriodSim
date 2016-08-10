@@ -1,6 +1,17 @@
-#' Initial parameters distribution
+#' The Second Period Problem Given Decision to Stay Married
 #'
-#' This function simulate the income process for two spaouses
+#' This function finds the optimal spouses' consumption levels in the second period given their decision to stay married.
+#' We can use the optimization procedure or just use the analytical solution. The default is to use the analytical solution
+#'  and it is necessary to be worked in some other parts of the code.
+#'
+#' @param S Saving
+#' @param i The marriage index
+#' @param r1 First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param r2 Second period repetition. It is needed for taking expectaions, which is required in the second period
+#' @param Analytical If it is on it uses the analytical solution instead of using the optimization procedure.
+#' @param sigma_eta_h The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()
+#' @param rho The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()
+#' @param phi The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()
 #' @export
 
 period.2.m <- function(S, i, r1, r2,  Analytical = TRUE, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){

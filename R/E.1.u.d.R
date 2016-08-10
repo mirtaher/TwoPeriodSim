@@ -1,6 +1,17 @@
-#' Initial parameters distribution
+#' Expected Second Period Divorce Utility Given The First Period Info
 #'
-#' This function simulate the income process for two spaouses
+#' This function calculates the expected second period divorce utility given the information revealed at the first period for a given level of savings for an individual family.
+#' Essentially, it calculates the second period optimal consumption for the given level of saving in the state of divorce for different
+#' relizations of the shocks in the second period and then substiute them in the individual utility functions (u) or the joint utility function(U).
+#' Finally, it takes the average to return the expectations.
+#' @param S Saving
+#' @param type Could be individual utility (u) or the joint utility of the couple (U) in a unitary framework
+#' @param spouse If the type is individual utility (u), we should specify we mean husband or wife utility
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param sigma_eta_h The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()
+#' @param rho The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()
+#' @param phi The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()
 #' @export
 
 E.1.u.d <-function(S, type = c("u", "U"), spouse = c("h", "w"), i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){

@@ -1,7 +1,17 @@
-#' Initial parameters distribution
+#' Expected Second Period Marriage Utility Given The First Period Info in the Collective Framework
 #'
-#' This function simulate the income process for two spaouses
+#' This function calculates the expected second period marriage utility given the information revealed at the first period for a given level of savings and a new sharing rule (for the second period) for an individual family.
+#' Essentially, it calculates the second period optimal consumption for the given level of saving and updated sharing rule for different
+#' relizations of the shocks in the second period and then substiute them in the individual utility functions (u) or the joint utility function(U).
+#' Finally, it takes the average to return the expectations.
+#' @param lambda Sharing rule
+#' @param S Saving
+#' @param type Could be individual utility (u) or the joint utility of the couple (U) in a unitary framework
+#' @param spouse If the type is individual utility (u), we should specify we mean husband or wife utility
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
 #' @export
+
 
 E.1.u.m.lam <-function(lambda, S, type = c("u", "U"), spouse = c("h", "w"), i, r){
 
