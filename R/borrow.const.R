@@ -10,7 +10,14 @@
 #'  family if tehy decide to stay married, would constitute as the min savings. In addition, an starvation consumption in the second
 #'  period (which specifies by tol variable) sets aside.
 #'  The maximum saving is the whole total first period income after setting aside the starvation consumption in the first period.
+#'
+#' @param i The marriage index
+#' @param r First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period
+#' @param sigma_eta_h The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()
+#' @param rho The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()
+#' @param phi The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()
 #' @export
+
 
 
 borrow.const <- function(i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho, phi = param()$phi){

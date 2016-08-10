@@ -7,6 +7,17 @@
 borrow.const(i, r, sigma_eta_h = param()$sigma_eta_h, rho = param()$rho,
   phi = param()$phi)
 }
+\arguments{
+\item{i}{The marriage index}
+
+\item{r}{First period repetition. It is not necessary to be greater than one for the first period. It is needed for taking expectaions, which is required in the second period}
+
+\item{sigma_eta_h}{The husband's variance of transitory shock. If not specified the default is the baseline value specified in the param()}
+
+\item{rho}{The contemporaneous correlation coefficient of the husband and wife income shocks. If not specified the default is the baseline value specified in the param()}
+
+\item{phi}{The ratio of the wife's standard deviation of the transitory shock to that of the husband. If not specified the default is the baseline value specified in the param()}
+}
 \description{
 This function finds the max and min amount of savings given a specific income shocks
 parameters and individual family (i) and specific repetition (r). If income sgocks pars are not specified
